@@ -1,8 +1,9 @@
-package com.tera.candidatemanagement.candidate;
+package com.tera.candidatemanagement.candidate.controller;
 
-import com.tera.candidatemanagement.dto.CandidateRequest;
-import com.tera.candidatemanagement.dto.CandidateResponse;
-import com.tera.candidatemanagement.payload.ApiResponse;
+import com.tera.candidatemanagement.candidate.service.CandidateService;
+import com.tera.candidatemanagement.candidate.dto.CandidateRequest;
+import com.tera.candidatemanagement.candidate.dto.CandidateResponse;
+import com.tera.candidatemanagement.common.payload.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,7 @@
-package com.tera.candidatemanagement.candidate;
+package com.tera.candidatemanagement.candidate.service;
 
-import com.tera.candidatemanagement.dto.CandidateRequest;
+import com.tera.candidatemanagement.candidate.dto.CandidateRequest;
+import com.tera.candidatemanagement.candidate.model.Candidate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

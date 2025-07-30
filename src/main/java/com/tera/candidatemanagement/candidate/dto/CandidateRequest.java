@@ -1,6 +1,6 @@
-package com.tera.candidatemanagement.dto;
+package com.tera.candidatemanagement.candidate.dto;
 
-import com.tera.candidatemanagement.model.Gender;
+import com.tera.candidatemanagement.candidate.enums.Gender;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;

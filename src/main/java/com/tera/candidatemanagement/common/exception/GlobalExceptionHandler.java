@@ -1,6 +1,8 @@
-package com.tera.candidatemanagement.exception;
+package com.tera.candidatemanagement.common.exception;
 
-import com.tera.candidatemanagement.payload.ApiResponse;
+import com.tera.candidatemanagement.candidate.exception.EmailAlreadyExistsException;
+import com.tera.candidatemanagement.candidate.exception.CandidateNotFoundException;
+import com.tera.candidatemanagement.common.payload.ApiResponse;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +35,8 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error(errors, "Validation failed"));
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ApiResponse<Void>> handleNotFound(NotFoundException ex) {
+    @ExceptionHandler(CandidateNotFoundException.class)
+    public ResponseEntity<ApiResponse<Void>> handleNotFound(CandidateNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ApiResponse.error(null, ex.getMessage()));
     }

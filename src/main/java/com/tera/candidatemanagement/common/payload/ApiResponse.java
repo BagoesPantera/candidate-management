@@ -1,4 +1,4 @@
-package com.tera.candidatemanagement.payload;
+package com.tera.candidatemanagement.common.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

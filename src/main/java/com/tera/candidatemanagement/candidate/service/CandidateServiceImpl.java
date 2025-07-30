@@ -1,8 +1,10 @@
-package com.tera.candidatemanagement.candidate;
+package com.tera.candidatemanagement.candidate.service;
 
-import com.tera.candidatemanagement.dto.CandidateRequest;
-import com.tera.candidatemanagement.exception.EmailAlreadyExistsException;
-import com.tera.candidatemanagement.exception.NotFoundException;
+import com.tera.candidatemanagement.candidate.repository.CandidateRepository;
+import com.tera.candidatemanagement.candidate.dto.CandidateRequest;
+import com.tera.candidatemanagement.candidate.exception.EmailAlreadyExistsException;
+import com.tera.candidatemanagement.candidate.exception.CandidateNotFoundException;
+import com.tera.candidatemanagement.candidate.model.Candidate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +27,7 @@ public class CandidateServiceImpl implements CandidateService {
     @Override
     public Candidate getById(String id) {
         return candidateRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Candidate not found"));
+                .orElseThrow(() -> new CandidateNotFoundException("Candidate not found"));
     }
 
     @Override
