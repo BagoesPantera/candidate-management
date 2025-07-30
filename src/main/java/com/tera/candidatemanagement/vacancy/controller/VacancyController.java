@@ -1,6 +1,7 @@
 package com.tera.candidatemanagement.vacancy.controller;
 
 import com.tera.candidatemanagement.common.payload.ApiResponse;
+import com.tera.candidatemanagement.vacancy.dto.CandidateRankingResponse;
 import com.tera.candidatemanagement.vacancy.dto.VacancyRequest;
 import com.tera.candidatemanagement.vacancy.dto.VacancyResponse;
 import com.tera.candidatemanagement.vacancy.model.Vacancy;
@@ -43,8 +44,13 @@ public class VacancyController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse> delete(@PathVariable String id) {
+    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable String id) {
         vacancyService.delete(id);
-        return ResponseEntity.ok(new ApiResponse(true, "Vacancy deleted successfully"));
+        return ResponseEntity.ok(ApiResponse.success(null, "Vacancy deleted successfully"));
+    }
+
+    @GetMapping("/{vacancyId}/rank-candidates")
+    public List<CandidateRankingResponse> rankCandidates(@PathVariable String vacancyId) {
+        return vacancyService.rankCandidates(vacancyId);
     }
 }

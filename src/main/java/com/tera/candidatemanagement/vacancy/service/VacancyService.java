@@ -1,5 +1,6 @@
 package com.tera.candidatemanagement.vacancy.service;
 
+import com.tera.candidatemanagement.vacancy.dto.CandidateRankingResponse;
 import com.tera.candidatemanagement.vacancy.dto.VacancyRequest;
 import com.tera.candidatemanagement.vacancy.dto.VacancyResponse;
 import com.tera.candidatemanagement.vacancy.model.Vacancy;
@@ -14,4 +15,6 @@ public interface VacancyService {
 
     VacancyResponse update(String id, VacancyRequest request);
     void delete(String id);
+
+    List<CandidateRankingResponse> rankCandidates(String vacancyId);
 }
