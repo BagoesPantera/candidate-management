@@ -1,5 +1,6 @@
 package com.tera.candidatemanagement.candidate.controller;
 
+import com.tera.candidatemanagement.candidate.model.Candidate;
 import com.tera.candidatemanagement.candidate.service.CandidateService;
 import com.tera.candidatemanagement.candidate.dto.CandidateRequest;
 import com.tera.candidatemanagement.candidate.dto.CandidateResponse;
@@ -20,31 +21,25 @@ public class CandidateController {
     private final CandidateService candidateService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<CandidateResponse>>> getAll() {
-        List<CandidateResponse> responses = candidateService.getAll().stream()
-                .map(CandidateResponse::fromEntity)
-                .toList();
-        return ResponseEntity.ok(new ApiResponse<>(responses, "List of candidates"));
+    public ResponseEntity<List<CandidateResponse>> getAll() {
+        return ResponseEntity.ok(candidateService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<CandidateResponse>> getById(@PathVariable String id) {
-        CandidateResponse response = CandidateResponse.fromEntity(candidateService.getById(id));
-        return ResponseEntity.ok(new ApiResponse<>(response, "Candidate found"));
+    public ResponseEntity<Candidate> getById(@PathVariable String id) {
+        return ResponseEntity.ok(candidateService.getById(id));
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<CandidateResponse>> create(@Valid @ModelAttribute CandidateRequest request) {
-        CandidateResponse response = CandidateResponse.fromEntity(candidateService.create(request));
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(response, "Candidate created"));
+    public ResponseEntity<CandidateResponse> create(@Valid @RequestBody CandidateRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(candidateService.create(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<CandidateResponse>> update(
+    public ResponseEntity<CandidateResponse> update(
             @PathVariable String id,
-            @Valid @ModelAttribute CandidateRequest request) {
-        CandidateResponse response = CandidateResponse.fromEntity(candidateService.update(id, request));
-        return ResponseEntity.ok(new ApiResponse<>(response, "Candidate updated"));
+            @Valid @RequestBody CandidateRequest request) {
+        return ResponseEntity.ok(candidateService.update(id, request));
     }
 
     @DeleteMapping("/{id}")

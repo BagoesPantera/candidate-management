@@ -6,6 +6,7 @@ import com.tera.candidatemanagement.common.payload.ApiResponse;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -52,5 +53,20 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleAll(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ApiResponse.error(null, ex.getMessage()));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<?> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+        Throwable cause = ex.getMostSpecificCause();
+        String message = "Invalid request";
+
+        if (cause.getMessage() != null && cause.getMessage().contains("Gender must be either")) {
+            message = cause.getMessage();
+        }
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("data", null);
+        body.put("message", message);
+        return ResponseEntity.badRequest().body(body);
     }
 }

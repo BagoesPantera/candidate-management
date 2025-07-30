@@ -1,27 +1,30 @@
 package com.tera.candidatemanagement.candidate.service;
 
+import com.tera.candidatemanagement.candidate.dto.CandidateResponse;
 import com.tera.candidatemanagement.candidate.repository.CandidateRepository;
 import com.tera.candidatemanagement.candidate.dto.CandidateRequest;
 import com.tera.candidatemanagement.candidate.exception.EmailAlreadyExistsException;
 import com.tera.candidatemanagement.candidate.exception.CandidateNotFoundException;
 import com.tera.candidatemanagement.candidate.model.Candidate;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-@Slf4j
 @Service
+@RequiredArgsConstructor
 public class CandidateServiceImpl implements CandidateService {
 
-    @Autowired
-    private CandidateRepository candidateRepository;
+    private final CandidateRepository candidateRepository;
 
     @Override
-    public List<Candidate> getAll() {
-        return candidateRepository.findAll();
+    public List<CandidateResponse> getAll() {
+        return candidateRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -31,9 +34,8 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public Candidate create(CandidateRequest request) {
+    public CandidateResponse create(CandidateRequest request) {
         if (candidateRepository.findByEmail(request.getEmail()).isPresent()) {
-            log.error("Email {} already in use", request.getEmail());
             throw new EmailAlreadyExistsException("Email already in use");
         }
 
@@ -43,12 +45,13 @@ public class CandidateServiceImpl implements CandidateService {
         candidate.setBirthDate(request.getBirthDate());
         candidate.setGender(request.getGender());
         candidate.setCurrentSalary(request.getCurrentSalary());
+        Candidate saved = candidateRepository.save(candidate);
 
-        return candidateRepository.save(candidate);
+        return mapToResponse(saved);
     }
 
     @Override
-    public Candidate update(String id, CandidateRequest request) {
+    public CandidateResponse update(String id, CandidateRequest request) {
         Candidate candidate = getById(id);
 
         Optional<Candidate> existing = candidateRepository.findByEmail(request.getEmail());
@@ -61,13 +64,27 @@ public class CandidateServiceImpl implements CandidateService {
         candidate.setBirthDate(request.getBirthDate());
         candidate.setGender(request.getGender());
         candidate.setCurrentSalary(request.getCurrentSalary());
+        Candidate updated = candidateRepository.save(candidate);
 
-        return candidateRepository.save(candidate);
+        return mapToResponse(updated);
     }
 
     @Override
     public void delete(String id) {
-        Candidate candidate = getById(id);
-        candidateRepository.delete(candidate);
+        if (!candidateRepository.existsById(id)) {
+            throw new CandidateNotFoundException("Candidate not found");
+        }
+        candidateRepository.deleteById(id);
+    }
+
+    private CandidateResponse mapToResponse(Candidate candidate) {
+        return new CandidateResponse(
+                candidate.getId(),
+                candidate.getName(),
+                candidate.getEmail(),
+                candidate.getBirthDate(),
+                candidate.getGender(),
+                candidate.getCurrentSalary()
+        );
     }
 }
