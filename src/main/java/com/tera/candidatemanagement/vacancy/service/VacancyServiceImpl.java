@@ -94,7 +94,6 @@ public class VacancyServiceImpl implements VacancyService {
             Pageable pageable = PageRequest.of(page, pageSize);
             candidatesPage = candidateRepository.findAll(pageable);
 
-            // Gunakan parallelStream tapi kumpulkan dulu ke list sementara
             List<CandidateRankingResponse> tempList = candidatesPage.getContent().parallelStream()
                     .map(candidate -> {
                         int score = 0;

@@ -1,6 +1,5 @@
 package com.tera.candidatemanagement.candidate.dto;
 
-import com.tera.candidatemanagement.candidate.model.Candidate;
 import com.tera.candidatemanagement.candidate.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

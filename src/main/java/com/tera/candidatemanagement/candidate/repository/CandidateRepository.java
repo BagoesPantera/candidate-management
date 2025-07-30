@@ -7,5 +7,4 @@ import java.util.Optional;
 
 public interface CandidateRepository extends MongoRepository<Candidate,String> {
     Optional<Candidate> findByEmail(String email);
-    boolean existsBy(String email);
 }
