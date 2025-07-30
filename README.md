@@ -91,6 +91,19 @@ This project implements a REST API built with Spring Boot and MongoDB. It suppor
 }
 ```
 
+## API Documentation
+
+For detailed API documentation with examples and testing capabilities, visit our Postman collection:
+
+**[View Complete API Documentation](https://documenter.getpostman.com/view/18748358/2sB3B8rswM)**
+
+The Postman documentation includes:
+- Complete request/response examples
+- Interactive API testing
+- Detailed parameter descriptions
+- Error response examples
+- Collection for easy import into Postman
+
 ## Notes
 
 - Default MongoDB configuration uses `mongodb://localhost:27017/db-candidate-management` (can be changed in `application.properties`)
